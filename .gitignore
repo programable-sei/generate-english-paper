@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+src/Result.tsx
+
+server.js
+
+db.json
+
+Food.js

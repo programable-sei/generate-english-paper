@@ -6,24 +6,14 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import Fuse from "fuse.js";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { TextField } from "@mui/material";
+import { Input, TextField } from "@mui/material";
+import Result from "./Result";
 // import { useFormControl } from '@mui/material/FormControl';
-
-type Text = {
-  name: string;
-};
-
-interface Items {
-  id: number;
-  JHS: string;
-  en_passage: string;
-  ja_passage: string;
-}
 
 const PickUp = () => {
   const [sentence, setSentence] = useState([""]);
@@ -42,6 +32,8 @@ const PickUp = () => {
   const handleChangeType = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
+
+  const [resultOpen, setResultOpen] = React.useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -64,22 +56,40 @@ const PickUp = () => {
       })
       .then((search_words) => {
         console.log("Psss3");
-        const times = number
+        let times;
+
+        times = number;
 
         if (!times) {
           return;
         }
-          
-        const vals = []
 
-        for ( let i=0; i < times; i++) {
-          const val = search_words[Math.floor( Math.random() * search_words.length ) ]
-          vals.push(val)
+        const vals: any = [];
+
+        if (search_words.length < times) {
+          times = search_words.length;
         }
 
-        console.log(vals);
-        
-        // console.log(search_words[ Math.floor( Math.random() * search_words.length ) ])
+        // function intRandom(min: number, max: number) {
+        //   return Math.floor(Math.random() * (max - min + 1) + min);
+        // }
+
+        for (let i = 0; i < times; i++) {
+          while (true) {
+            // const tmp = intRandom(0, times);
+            const tmp = search_words[i];
+            console.log(tmp);
+            if (!vals.includes(tmp)) {
+              vals.push(tmp);
+              break;
+            }
+          }
+          // const val =
+          //   search_words[Math.floor(Math.random() * search_words.length)];
+          // vals.push(val);
+        }
+
+        // console.log(vals);
 
         const pickUp_data = vals.map(({ item }: any) => {
           return item.en_passage;
@@ -89,13 +99,13 @@ const PickUp = () => {
 
     console.log("Psss4");
 
-    if ( !fetchSentence) { 
+    if (!fetchSentence) {
       return;
     }
 
     if (fetchSentence.length == 0) {
       toast.error("存在しません。", {
-        position: toast.POSITION.BOTTOM_RIGHT
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
 
@@ -104,23 +114,16 @@ const PickUp = () => {
     setValue("");
     setdifficulty("");
     setCategory("");
+
+    if (fetchSentence.length == 0) {
+      setResultOpen(false);
+    } else {
+      setResultOpen(true);
+    }
   };
 
   return (
     <>
-      {sentence.map((val, index): any => {
-        return (
-          <div key={index}>
-            <ul
-              css={css`
-                list-style: none;
-              `}
-            >
-              <li>{val}</li>
-            </ul>
-          </div>
-        );
-      })}
       <form onSubmit={handleSubmit} autoComplete="on">
         <label>
           Search:
@@ -176,11 +179,24 @@ const PickUp = () => {
               </Select>
             </FormControl>
           </Box>
-          <TextField type="number" InputLabelProps={{ shrink: true }} onChange={(e: any) => setNumber(e.target.value)} css={css`margin: 10px;`} />
+          <TextField
+            type="number"
+            InputLabelProps={{ shrink: true }}
+            onChange={(e: any) => setNumber(e.target.value)}
+            css={css`
+              margin: 10px;
+            `}
+          />
           <InputLabel shrink>Count</InputLabel>
-          <input type="submit" value="Submit" />
+          <Input type="submit" value="Submit" />
         </label>
       </form>
+
+      <Result
+        resultOpen={resultOpen}
+        setResultOpen={setResultOpen}
+        sentence={sentence}
+      />
     </>
   );
 };

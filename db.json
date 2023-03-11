@@ -16,6 +16,7 @@
     { "id": 14, "school": "JHS","category": "no_category", "en_passage": "Are there any girls under the tree?", "ja_passage": "木の下に(何人かの)女の子がいますか。" },
     { "id": 16, "school": "JHS","category": "infinitive", "en_passage": "Ken wants to learn Japanese history.", "ja_passage": "ケンは日本の歴史を学びたい。" },
     { "id": 17, "school": "JHS","category": "infinitive", "en_passage": "Ken wants to learn Japanese history.", "ja_passage": "ケンは日本の歴史を学びたい。" },
-    { "id": 18, "school": "JHS","category": "comparative", "en_passage": "That picture is more beautiful than this one.", "ja_passage": "あの絵はこの絵よりも美しい。" }
+    { "id": 18, "school": "JHS","category": "comparative", "en_passage": "That picture is more beautiful than this one.", "ja_passage": "あの絵はこの絵よりも美しい。" },
+    { "id": 19, "school": "JHS","category": "no_category", "en_passage": "I'm interested in music.", "ja_passage": "わたしは音楽に興味があります。" }
   ]
 }
